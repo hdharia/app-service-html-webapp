@@ -1,0 +1,24 @@
+<<<<<<< HEAD
+# Contributing to Azure samples
+
+Thank you for your interest in contributing to Azure samples!
+
+## Ways to contribute
+
+You can contribute to [Azure samples](https://azure.microsoft.com/documentation/samples/) in a few different ways:
+
+- Submit feedback on [this sample page](https://azure.microsoft.com/documentation/samples/app-service-web-html-get-started/) whether it was helpful or not.  
+- Submit issues through [issue tracker](https://github.com/Azure-Samples/app-service-web-html-get-started/issues) on GitHub. We are actively monitoring the issues and improving our samples.
+=======
+# Contributing to Azure samples
+
+Thank you for your interest in contributing to Azure samples!
+
+## Ways to contribute
+
+You can contribute to [Azure samples](https://azure.microsoft.com/documentation/samples/) in a few different ways:
+
+- Submit feedback on [this sample page](https://azure.microsoft.com/documentation/samples/app-service-web-html-get-started/) whether it was helpful or not.  
+- Submit issues through [issue tracker](https://github.com/Azure-Samples/app-service-web-html-get-started/issues) on GitHub. We are actively monitoring the issues and improving our samples.
+>>>>>>> 949c56b6280cf7d06a2ee0b5bbc3389d453ece6b
+- If you wish to make code changes to samples, or contribute something new, please follow the [GitHub Forks / Pull requests model](https://help.github.com/articles/fork-a-repo/): Fork the sample repo, make the change and propose it back by submitting a pull request.
