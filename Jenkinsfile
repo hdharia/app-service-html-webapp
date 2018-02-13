@@ -44,7 +44,21 @@ node ('master')
 {
     stage('Build Packer VM')
     {
-
+        withCredentials([azureServicePrincipal('mag-svp'), usernamePassword(credentialsId: 'acr_id', passwordVariable: 'ACR_USER_PWD', usernameVariable: 'ACR_USER_ID'),
+                sshUserPrivateKey(credentialsId: 'windows10-spro-key', keyFileVariable: 'SSH_PASS', passphraseVariable: '', usernameVariable: 'SSH_USER')]) {
+                    sh "cd packer \
+                        && \
+                        packer build -var 'client_id=${AZURE_CLIENT_ID}' \
+                                    -var 'client_secret=${AZURE_CLIENT_SECRET}' \
+                                    -var 'tenant_id=${AZURE_TENANT_ID}' \
+                                    -var 'subscription_id=${AZURE_SUBSCRIPTION_ID}' \
+                                    -var 'acr_user_id=${ACR_USER_ID}' \
+                                    -var 'password_acr=${ACR_USER_PWD}' \
+                                    -var 'ssh_user=${SSH_USER}' \
+                                    -var 'ssh_pass=${SSH_PASS}' \
+                                    -var 'BUILD_ID=${BUILD_NUMBER}' \
+                                    dockervm.json"
+        }
     }
 }
 
@@ -54,6 +68,29 @@ node ('master')
 {
     stage('Update Production VM Scale Set')
     {
-
+        withCredentials([azureServicePrincipal('mag-svp')]) {
+            sh 'az cloud set --name AzureUSGovernment'   
+            sh 'az login --service-principal -u $AZURE_CLIENT_ID -p $AZURE_CLIENT_SECRET -t $AZURE_TENANT_ID'
+            
+            //get instance count for vmms
+            
+            def instances=sh (script: 'az vmss list-instances -g ubuntuvmms -n myScaleSet --output table --query "[].[instanceId]" | tail -c 2', returnStdout: true)
+            echo "Total Instance Count: ${instances}"
+            
+            //Get managed disk id
+            def RESOURCE_ID = sh (script: 'az image show --name dockervmdisk_${BUILD_NUMBER} -g packerdiskrg --output tsv --query [id]', returnStdout: true)
+            echo "Resource id ${RESOURCE_ID}"
+            
+            //Update vmss data disk
+            azureVMSSUpdate azureCredentialsId: 'mag-svp', imageReference: [id: "${RESOURCE_ID}", offer: '', publisher: '', sku: '', version: ''], name: 'myScaleSet', resourceGroup: 'ubuntuvmms'
+            
+            //update instance
+            def INSTANCECOUNT = new Integer(instances.trim()).intValue()
+            
+            for (int i = 0; i <= INSTANCECOUNT; i++) {
+                echo "Updating Instance ${i}" 
+                azureVMSSUpdateInstances azureCredentialsId: 'mag-svp', instanceIds: "${i}", name: 'myScaleSet', resourceGroup: 'ubuntuvmms'
+            }
+        }
     }
 }
