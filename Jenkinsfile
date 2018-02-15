@@ -18,6 +18,8 @@ node ('linuxbuildagent')
     
 node('master')
 {
+    checkout scm
+    
     stage('Dev Deploy to Dev VM')
     {
         sshagent(['ssh-credential']) {
