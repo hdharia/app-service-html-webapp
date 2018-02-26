@@ -15,6 +15,19 @@ node ('linuxbuildagent')
         }
     }
 }
+
+node('master')
+{
+    stage('Start Dev VM')
+    {
+        withCredentials([azureServicePrincipal('mag-svp')]) {
+            sh 'az cloud set --name AzureUSGovernment'   
+            sh 'az login --service-principal -u $AZURE_CLIENT_ID -p $AZURE_CLIENT_SECRET -t $AZURE_TENANT_ID'
+            
+            sh 'az az vm start -g docker_dev -n docker_devvm'
+        }
+    }
+}
     
 node('master')
 {
@@ -42,9 +55,22 @@ node('master')
 
 input 'Do you approve the build for production'
 
+node('master')
+{
+    stage('Deallocate Dev VM')
+    {
+        withCredentials([azureServicePrincipal('mag-svp')]) {
+            sh 'az cloud set --name AzureUSGovernment'   
+            sh 'az login --service-principal -u $AZURE_CLIENT_ID -p $AZURE_CLIENT_SECRET -t $AZURE_TENANT_ID'
+            
+            sh 'az az vm deallocate -g docker_dev -n docker_devvm'
+        }
+    }
+}
+
 node ('master')
 {
-    stage('Build Packer VM')
+    stage('Build Packer VM for Prod')
     {
         withCredentials([azureServicePrincipal('mag-svp'), usernamePassword(credentialsId: 'acr_id', passwordVariable: 'ACR_USER_PWD', usernameVariable: 'ACR_USER_ID'),
                 sshUserPrivateKey(credentialsId: 'windows10-spro-key', keyFileVariable: 'SSH_PASS', passphraseVariable: '', usernameVariable: 'SSH_USER')]) {
