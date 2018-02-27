@@ -24,7 +24,7 @@ node('master')
             sh 'az cloud set --name AzureUSGovernment'   
             sh 'az login --service-principal -u $AZURE_CLIENT_ID -p $AZURE_CLIENT_SECRET -t $AZURE_TENANT_ID'
             
-            sh 'az az vm start -g docker_dev -n docker_devvm'
+            sh 'az vm start -g docker_dev -n docker_devvm'
         }
     }
 }
@@ -63,7 +63,7 @@ node('master')
             sh 'az cloud set --name AzureUSGovernment'   
             sh 'az login --service-principal -u $AZURE_CLIENT_ID -p $AZURE_CLIENT_SECRET -t $AZURE_TENANT_ID'
             
-            sh 'az az vm deallocate -g docker_dev -n docker_devvm'
+            sh 'az vm deallocate -g docker_dev -n docker_devvm'
         }
     }
 }
