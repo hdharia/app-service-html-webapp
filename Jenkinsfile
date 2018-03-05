@@ -68,6 +68,8 @@ node('master')
     }
 }
 
+input 'Do you approve the build for baking'
+
 node ('master')
 {
     stage('Build Packer VM for Prod')
