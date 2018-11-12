@@ -43,8 +43,8 @@
         "apt-get update",
         "apt-get upgrade -y",
         "curl -fsSL get.docker.com -o get-docker.sh && sh get-docker.sh",
-        "docker login techsummithd.azurecr.io -u {{user `acr_user_id`}} -p {{user `password_acr`}}",
-        "docker run -d -p 80:80 --restart=always --name mywebapp techsummithd.azurecr.io/app-service-html-webapp:latest",
+        "docker login hdacrmag.azurecr.us -u {{user `acr_user_id`}} -p {{user `password_acr`}}",
+        "docker run -d -p 80:80 --restart=always --name mywebapp hdacrmag.azurecr.us/app-service-html-webapp:latest",
         "/usr/sbin/waagent -force -deprovision+user && export HISTSIZE=0 && sync"
       ],
       "inline_shebang": "/bin/sh -x",
