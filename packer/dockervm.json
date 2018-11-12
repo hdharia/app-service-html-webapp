@@ -21,7 +21,7 @@
       "subscription_id": "{{user `subscription_id`}}",
       "tenant_id": "{{user `tenant_id`}}",
   
-      "managed_image_resource_group_name": "packerdiskrg",
+      "managed_image_resource_group_name": "myPackerRG",
       "managed_image_name": "dockervmdisk_{{user `BUILD_ID`}}",
   
       "os_type": "Linux",
