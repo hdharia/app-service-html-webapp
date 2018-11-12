@@ -5,7 +5,7 @@ node ('linuxbuildagent')
     
     stage('Build & Publish')
     {
-        docker.withRegistry('https://techsummithd.azurecr.io', 'docker-repo-cred-id') {
+        docker.withRegistry('https://hdacrmag.azurecr.us', 'docker-repo-cred-id') {
     
             def customImage = docker.build("app-service-html-webapp:${env.BUILD_ID}")
     
