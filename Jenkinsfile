@@ -39,7 +39,7 @@ node('master')
             try
             {
                 withCredentials([usernamePassword(credentialsId: 'acr_id', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
-                    sh "ssh -o StrictHostKeyChecking=no -l hadharia dockerdevhd.usgovvirginia.cloudapp.usgovcloudapi.net \"sudo docker login techsummithd.azurecr.io -u ${USERNAME} -p ${PASSWORD}\""
+                    sh "ssh -o StrictHostKeyChecking=no -l hadharia dockerdevhd.usgovvirginia.cloudapp.usgovcloudapi.net \"sudo docker login hdacrmag.azurecr.us -u ${USERNAME} -p ${PASSWORD}\""
                 }
                 sh 'ssh -o StrictHostKeyChecking=no -l hadharia dockerdevhd.usgovvirginia.cloudapp.usgovcloudapi.net \"sudo docker stop mywebapp && sudo docker rm mywebapp\"'
             }
@@ -47,7 +47,7 @@ node('master')
             {}
             finally
             {
-                sh 'ssh -o StrictHostKeyChecking=no -l hadharia dockerdevhd.usgovvirginia.cloudapp.usgovcloudapi.net \"sudo docker run -d -p 80:80 --name mywebapp techsummithd.azurecr.io/app-service-html-webapp:latest\"'
+                sh 'ssh -o StrictHostKeyChecking=no -l hadharia dockerdevhd.usgovvirginia.cloudapp.usgovcloudapi.net \"sudo docker run -d -p 80:80 --name mywebapp hdacrmag.azurecr.us/app-service-html-webapp:latest\"'
             }
         }
     }
