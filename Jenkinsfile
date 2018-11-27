@@ -108,7 +108,7 @@ node ('master')
             echo "Total Instance Count: ${instances}"
             
             //Get managed disk id
-            def RESOURCE_ID = sh (script: 'az image show --name dockervmdisk_${BUILD_NUMBER} -g packerdiskrg --output tsv --query [id]', returnStdout: true)
+            def RESOURCE_ID = sh (script: 'az image show --name dockervmdisk_${BUILD_NUMBER} -g myPackerRG --output tsv --query [id]', returnStdout: true)
             echo "Resource id ${RESOURCE_ID}"
             
             //Update vmss data disk
