@@ -104,7 +104,7 @@ node ('master')
             
             //get instance count for vmms
             
-            def instances=sh (script: 'az vmss list-instances -g ubuntuvmms -n myScaleSet --output table --query "[].[instanceId]" | tail -c 2', returnStdout: true)
+            def instances=sh (script: 'az vmss list -g ubuntuvmms --query "[].sku.capacity" --output table | tail -c 2', returnStdout: true)
             echo "Total Instance Count: ${instances}"
             
             //Get managed disk id
